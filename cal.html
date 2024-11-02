@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    }
+    .calculator{
+        background-color: #444;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        padding: 20px;
+        width:320px;
+        text-align: center;
+    }
+    div{
+        display:block;
+    }
+    #display{
+        width: 95%;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        color:#fff;
+        background-color: #222;
+        border:none;
+        border-radius: 5px;
+        text-align: right;
+    }
+    input[type="text i"]{
+        padding-block: 1px;
+        padding-inline: 2px;
+    }
+    .buttons{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap:10px;
+    }
+    /* button:nth-child(17) {
+    /* background-color:#12e0c5; */
+    /* grid-row: span 2;} */ */
+    button {
+        appearance: auto;
+        /* font-style:;
+        font-variant-ligatures: ;
+        font-variant-caps: ;
+        font-variant-numeric: ;
+        font-variant-east-asian: ;
+        font-variant-alternates: ;
+        font-variant-position: ;
+        font-weight:;
+        font-stretch: ; */
+        text-rendering: auto;
+        color: buttontext;
+        Letter-spacing: normal;
+        word-spacing: normal;
+        Line-height: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        display: inline-block;
+        text-align: center;
+        align-items: flex-start;
+        cursor: default;
+    }
+    h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+        color: #f5f5f5;
+    }
+    img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+    img {
+        overflow-clip-margin: content-box;
+        overflow: clip;
+    }
+    button.clear {
+        grid-column: span 1;
+        color: #12e0c5;
+    }
+    button {
+    padding: 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #fff;
+    cursor: pointer;
+}
+button.equals {
+    grid-column: span 3;
+    background-color:#12e0c5;
+}
+  </style>
+</head>
+<body>
+    <div class="calculator">
+        <div style="display: flex;">
+        <img src="Calculator.jpg" alt="Calculator Icon">
+        <h1>&nbsp;&nbsp;&nbsp;JS Calculator</h1>
+</div>
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button onclick="appendToDisplay('**')">pow</button>
+          <button onclick="increment()">INC</button>
+          <button onclick="decrement()">DEC</button>
+          <button class="clear" onclick="clearDisplay()">AC</button>
+          <button onclick="appendToDisplay('/')">÷</button>
+          <button onclick="appendToDisplay('7')">7</button>
+          <button onclick="appendToDisplay('8')">8</button>
+          <button onclick="appendToDisplay('9')">9</button>
+          <button onclick="appendToDisplay('*')">x</button>
+          <button onclick="appendToDisplay('4')">4</button>
+          <button onclick="appendToDisplay('5')">5</button>
+          <button onclick="appendToDisplay('6')">6</button>
+          <button onclick="appendToDisplay('-')">-</button>
+          <button onclick="appendToDisplay('1')">1</button>
+          <button onclick="appendToDisplay('2')">2</button>
+          <button onclick="appendToDisplay('3')">3</button>
+          <button onclick="appendToDisplay('+')" class="plusButton">+</button>
+          <button onclick="appendToDisplay('%')">%</button>
+          <button onclick="appendToDisplay('0')">0</button>
+          <button onclick="appendToDisplay('.')">.</button>
+          <button class="equals" onclick="calculate()">=</button>
+          <button class="backspace-button" onclick="backspace()">⬅️</button>
+        </div>
+      </div>
+
+  <script>
+   let displayField = document.getElementById('display');
+
+function appendToDisplay(value) {
+  let lastChar = displayField.value.slice(-1);
+  if (['+', '-', '*', '/'].includes(value) && ['+', '-', '*', '/'].includes(lastChar)) {
+    return;
+  }
+  displayField.value += value;
+}
+
+function clearDisplay() {
+  displayField.value = '';
+}
+
+function calculate() {
+  try {
+    let result = eval(displayField.value);
+    if (isNaN(result) || !isFinite(result)) {
+      displayField.value = "Error";
+    } else {
+      displayField.value = result;
+    }
+  } catch (error) {
+    displayField.value = 'Error';
+  }
+}
+function increment() {
+  let currentValue = parseFloat(displayField.value);
+  if (!isNaN(currentValue)) {
+    displayField.value = currentValue + 1;
+  }
+}
+
+function decrement() {
+  let currentValue = parseFloat(displayField.value);
+  if (!isNaN(currentValue)) {
+    displayField.value = currentValue - 1;
+  }
+}
+
+function backspace() {
+    let currentValue = displayField.value;
+    displayField.value = currentValue.slice(0, -1); 
+  }
+document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    switch (key) {
+      case 'Enter':
+        event.preventDefault();
+        calculate(); 
+        break;
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+      case '.':
+        event.preventDefault();
+        appendToDisplay(key); 
+        break;
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        appendToDisplay(key); 
+        break;
+      case 'i':
+        increment(); 
+        break;
+      case 'd':
+        decrement(); 
+        break;
+      case 'Backspace':
+        backspace();
+        break;
+    }
+  });
+  </script>
+</body>
+</html>
